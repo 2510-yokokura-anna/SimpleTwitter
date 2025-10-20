@@ -32,7 +32,7 @@
                 <a href="./">戻る</a>
             </form>
 
-            <div class="copyright"> Copyright(c)YourName</div>
+            <div class="copyright">Copyright&copy;YokokuraAnna</div>
         </div>
     </body>
 </html>

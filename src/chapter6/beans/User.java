@@ -17,6 +17,9 @@ public class User implements Serializable {
     // getter/setterは省略されているので、自分で記述しましょう。
 
     // getter
+    public int getId() {
+        return id;
+    }
     public String getAccount() {
         return account;
     }
