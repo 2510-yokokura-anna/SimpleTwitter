@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.commons.lang.StringUtils;
+
 import chapter6.beans.Message;
 import chapter6.beans.UserMessage;
 import chapter6.dao.MessageDao;
@@ -55,17 +57,22 @@ public class MessageService {
         }
     }
 
-    public List<UserMessage> select() {
+    public List<UserMessage> select(String userId) {
 
 	  log.info(new Object(){}.getClass().getEnclosingClass().getName() +
         " : " + new Object(){}.getClass().getEnclosingMethod().getName());
 
         final int LIMIT_NUM = 1000;
 
+        Integer id = null;
+        if(!StringUtils.isEmpty(userId)) {
+            id = Integer.parseInt(userId);
+        }
+
         Connection connection = null;
         try {
             connection = getConnection();
-            List<UserMessage> messages = new UserMessageDao().select(connection, LIMIT_NUM);
+            List<UserMessage> messages = new UserMessageDao().select(connection, id, LIMIT_NUM);
             commit(connection);
 
             return messages;
