@@ -58,7 +58,7 @@ public class UserMessageDao {
         	ps = connection.prepareStatement(sql.toString());
 
             if(userId != null) {
-            	ps.setString(1, userId.toString());
+            	ps.setInt(1, userId);
             }
 
             ResultSet rs = ps.executeQuery();
