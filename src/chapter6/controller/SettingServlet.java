@@ -107,11 +107,11 @@ public class SettingServlet extends HttpServlet {
 	  log.info(new Object(){}.getClass().getEnclosingClass().getName() +
         " : " + new Object(){}.getClass().getEnclosingMethod().getName());
 
+        int id = user.getId();
         String name = user.getName();
         String account = user.getAccount();
         String email = user.getEmail();
         User userDuplication = new UserService().select(account);
-        User userSession= (User) session.getAttribute("loginUser");
 
         if (!StringUtils.isEmpty(name) && (20 < name.length())) {
             errorMessages.add("名前は20文字以下で入力してください");
@@ -124,8 +124,8 @@ public class SettingServlet extends HttpServlet {
         if (!StringUtils.isEmpty(email) && (50 < email.length())) {
             errorMessages.add("メールアドレスは50文字以下で入力してください");
         }
-        if (userDuplication != null && !account.equals(userSession.getAccount())) {
-        	errorMessages.add("アカウント名が重複しています");
+        if (userDuplication != null && userDuplication.getId() != id) {
+        	errorMessages.add("すでに存在するアカウントです");
         }
 
         if (errorMessages.size() != 0) {
