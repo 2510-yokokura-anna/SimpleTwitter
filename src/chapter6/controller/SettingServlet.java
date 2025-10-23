@@ -65,7 +65,7 @@ public class SettingServlet extends HttpServlet {
         List<String> errorMessages = new ArrayList<String>();
 
         User user = getUser(request);
-        if (isValid(user, session, errorMessages)) {
+        if (isValid(user, errorMessages)) {
             try {
                 new UserService().update(user);
             } catch (NoRowsUpdatedRuntimeException e) {
@@ -101,7 +101,7 @@ public class SettingServlet extends HttpServlet {
         return user;
     }
 
-    private boolean isValid(User user, HttpSession session, List<String> errorMessages) {
+    private boolean isValid(User user, List<String> errorMessages) {
 
 
 	  log.info(new Object(){}.getClass().getEnclosingClass().getName() +
