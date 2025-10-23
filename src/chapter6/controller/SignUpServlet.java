@@ -92,7 +92,7 @@ public class SignUpServlet extends HttpServlet {
         String account = user.getAccount();
         String password = user.getPassword();
         String email = user.getEmail();
-        User accountDuplication = new UserService().select(account);
+        User userDuplication = new UserService().select(account);
 
         if (!StringUtils.isEmpty(name) && (20 < name.length())) {
             errorMessages.add("名前は20文字以下で入力してください");
@@ -112,7 +112,7 @@ public class SignUpServlet extends HttpServlet {
             errorMessages.add("メールアドレスは50文字以下で入力してください");
         }
 
-        if (accountDuplication != null) {
+        if (userDuplication != null) {
         	errorMessages.add("アカウント名が重複しています");
         }
 

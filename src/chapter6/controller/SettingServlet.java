@@ -124,8 +124,7 @@ public class SettingServlet extends HttpServlet {
         if (!StringUtils.isEmpty(email) && (50 < email.length())) {
             errorMessages.add("メールアドレスは50文字以下で入力してください");
         }
-        String test = userSession.getAccount();
-        if (userDuplication != null && account != userSession.getAccount()) {
+        if (userDuplication != null && !account.equals(userSession.getAccount())) {
         	errorMessages.add("アカウント名が重複しています");
         }
 
