@@ -88,4 +88,80 @@ public class MessageService {
             close(connection);
         }
     }
+
+    // メッセージ編集（ページ読み込み）
+    public Message select(int id) {
+
+
+        log.info(new Object(){}.getClass().getEnclosingClass().getName() +
+        " : " + new Object(){}.getClass().getEnclosingMethod().getName());
+
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            Message message = new MessageDao().select(connection, id);
+            commit(connection);
+
+            return message;
+        } catch (RuntimeException e) {
+            rollback(connection);
+    	  log.log(Level.SEVERE, new Object(){}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+            throw e;
+        } catch (Error e) {
+            rollback(connection);
+    	  log.log(Level.SEVERE, new Object(){}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+            throw e;
+        } finally {
+            close(connection);
+        }
+    }
+
+    public void delete(int id) {
+
+  	  log.info(new Object(){}.getClass().getEnclosingClass().getName() +
+  	        " : " + new Object(){}.getClass().getEnclosingMethod().getName());
+
+    	Connection connection = null;
+        try {
+        	connection = getConnection();
+        	new MessageDao().delete(connection, id);
+        	commit(connection);
+        	return;
+        } catch (RuntimeException e) {
+            rollback(connection);
+		log.log(Level.SEVERE, new Object(){}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+            throw e;
+        } catch (Error e) {
+            rollback(connection);
+		log.log(Level.SEVERE, new Object(){}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+            throw e;
+        } finally {
+            close(connection);
+        }
+    }
+
+    // メッセージ編集（データベース上書き）
+    public void update(int id, String text) {
+
+	  log.info(new Object(){}.getClass().getEnclosingClass().getName() +
+    	        " : " + new Object(){}.getClass().getEnclosingMethod().getName());
+
+		Connection connection = null;
+		try {
+		  	connection = getConnection();
+		  	new MessageDao().update(connection, id, text);
+		  	commit(connection);
+		  	return;
+		} catch (RuntimeException e) {
+		    rollback(connection);
+		log.log(Level.SEVERE, new Object(){}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+		    throw e;
+		} catch (Error e) {
+		    rollback(connection);
+		log.log(Level.SEVERE, new Object(){}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+		    throw e;
+		} finally {
+			close(connection);
+		}
+    }
 }

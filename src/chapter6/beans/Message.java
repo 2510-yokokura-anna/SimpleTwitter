@@ -25,6 +25,9 @@ public class Message implements Serializable {
     }
 
     // setter
+    public void setId(int id) {
+        this.id = id;
+    }
     public void setUserId(int userId) {
         this.userId = userId;
     }
