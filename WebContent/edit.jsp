@@ -41,6 +41,7 @@
 	            <input type="submit" value="更新">（140文字まで）
 	            <a href="./">戻る</a>
 	        </form>
+	        <%= request.getAttribute("param")%>
 
             <div class="copyright">Copyright&copy;YokokuraAnna</div>
         </div>

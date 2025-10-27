@@ -97,6 +97,31 @@ public class MessageDao {
         }
     }
 
+    // メッセージ編集（バリデーション用）
+    public Message reference(Connection connection, int id) {
+
+        PreparedStatement ps = null;
+        try {
+            String sql = "SELECT * FROM messages WHERE id = ?";
+
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, id);
+
+            ResultSet rs = ps.executeQuery();
+
+            List<Message> messages = toMessages(rs);
+            if (messages.isEmpty()) {
+                return null;
+            } else {
+                return messages.get(0);
+            }
+        } catch (SQLException e) {
+            throw new SQLRuntimeException(e);
+        } finally {
+            close(ps);
+        }
+    }
+
     // メッセージ編集（ページ読み込み用データ格納）
     private List<Message> toMessages(ResultSet rs) throws SQLException {
 

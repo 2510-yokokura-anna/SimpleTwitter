@@ -116,6 +116,27 @@ public class MessageService {
         }
     }
 
+    // メッセージ編集（バリデーション用）
+    public Message reference(int id) {
+
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            Message message = new MessageDao().reference(connection, id);
+            commit(connection);
+
+            return message;
+        } catch (RuntimeException e) {
+            rollback(connection);
+            throw e;
+        } catch (Error e) {
+            rollback(connection);
+            throw e;
+        } finally {
+            close(connection);
+        }
+    }
+
     public void delete(int id) {
 
   	  log.info(new Object(){}.getClass().getEnclosingClass().getName() +
