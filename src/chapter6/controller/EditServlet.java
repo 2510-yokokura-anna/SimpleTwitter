@@ -10,7 +10,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -40,7 +39,9 @@ public class EditServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-	 	HttpSession session = request.getSession();
+  	  log.info(new Object(){}.getClass().getEnclosingClass().getName() +
+  	        " : " + new Object(){}.getClass().getEnclosingMethod().getName());
+
       	List<String> errorMessages = new ArrayList<String>();
 
       	try {
@@ -77,6 +78,9 @@ public class EditServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
 
+  	  log.info(new Object(){}.getClass().getEnclosingClass().getName() +
+  	        " : " + new Object(){}.getClass().getEnclosingMethod().getName());
+
         List<String> errorMessages = new ArrayList<String>();
 
         Message message = getMessage(request);
@@ -99,7 +103,6 @@ public class EditServlet extends HttpServlet {
     // メッセージ編集（フォーム内データ取得）
     private Message getMessage(HttpServletRequest request) throws IOException, ServletException {
 
-
 	  log.info(new Object(){}.getClass().getEnclosingClass().getName() +
         " : " + new Object(){}.getClass().getEnclosingMethod().getName());
 
@@ -115,7 +118,6 @@ public class EditServlet extends HttpServlet {
 	  log.info(new Object(){}.getClass().getEnclosingClass().getName() +
         " : " + new Object(){}.getClass().getEnclosingMethod().getName());
 
-	    int id = message.getId();
 	    String text = message.getText();
 
         if (StringUtils.isBlank(text)) {
