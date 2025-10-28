@@ -92,7 +92,6 @@ public class MessageService {
     // メッセージ編集（ページ読み込み）
     public Message select(int id) {
 
-
         log.info(new Object(){}.getClass().getEnclosingClass().getName() +
         " : " + new Object(){}.getClass().getEnclosingMethod().getName());
 
@@ -110,27 +109,6 @@ public class MessageService {
         } catch (Error e) {
             rollback(connection);
     	  log.log(Level.SEVERE, new Object(){}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
-            throw e;
-        } finally {
-            close(connection);
-        }
-    }
-
-    // メッセージ編集（バリデーション用）
-    public Message reference(int id) {
-
-        Connection connection = null;
-        try {
-            connection = getConnection();
-            Message message = new MessageDao().reference(connection, id);
-            commit(connection);
-
-            return message;
-        } catch (RuntimeException e) {
-            rollback(connection);
-            throw e;
-        } catch (Error e) {
-            rollback(connection);
             throw e;
         } finally {
             close(connection);

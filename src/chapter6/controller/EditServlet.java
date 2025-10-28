@@ -10,11 +10,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
 
 import chapter6.beans.Message;
-import chapter6.exception.NoRowsUpdatedRuntimeException;
 import chapter6.logging.InitApplication;
 import chapter6.service.MessageService;
 
@@ -42,31 +42,26 @@ public class EditServlet extends HttpServlet {
   	  log.info(new Object(){}.getClass().getEnclosingClass().getName() +
   	        " : " + new Object(){}.getClass().getEnclosingMethod().getName());
 
+  	  	HttpSession session = request.getSession();
       	List<String> errorMessages = new ArrayList<String>();
 
-      	try {
+		if(request.getParameter("id").matches("^[0-9]*$")) {
       		Message messageForm = getMessage(request);
 		    int id = messageForm.getId();
-		    Message userIdConfirmation = new MessageService().reference(id);
+		    Message userIdConfirmation = new MessageService().select(id);
 		    if(userIdConfirmation != null) {
-	            try {
-	            	Message message = new MessageService().select(id);
-	                request.setAttribute("message", message);
-	            } catch (NoRowsUpdatedRuntimeException e) {
-	            	log.warning("他の人によって更新されています。最新のデータを表示しました。データを確認してください。");
-	                errorMessages.add("他の人によって更新されています。最新のデータを表示しました。データを確認してください。");
-	            }
+            	Message message = new MessageService().select(id);
+                request.setAttribute("message", message);
 		    }else {
 		    	errorMessages.add("不正なパラメータが入力されました");
 		    }
-
-      	} catch (NumberFormatException  e) {
-      		errorMessages.add("不正なパラメータが入力されました");
-      	}
+		}else {
+			errorMessages.add("不正なパラメータが入力されました");
+		}
 
         if (errorMessages.size() != 0) {
-            request.setAttribute("errorMessages", errorMessages);
-            request.getRequestDispatcher("./").forward(request, response);
+        	session.setAttribute("errorMessages", errorMessages);
+        	response.sendRedirect("./");
             return;
         }
         request.getRequestDispatcher("edit.jsp").forward(request, response);
@@ -92,11 +87,7 @@ public class EditServlet extends HttpServlet {
             return;
         }
 
-        int id = Integer.parseInt(request.getParameter("id"));
-        String text = request.getParameter("text");
-
-        new MessageService().update(id, text);
-
+        new MessageService().update(message.getId(), message.getText());
         response.sendRedirect("./");
     }
 

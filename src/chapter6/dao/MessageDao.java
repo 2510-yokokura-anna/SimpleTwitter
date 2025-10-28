@@ -70,7 +70,6 @@ public class MessageDao {
     // メッセージ編集（ページ読み込み）
     public Message select(Connection connection, int id) {
 
-
         log.info(new Object(){}.getClass().getEnclosingClass().getName() +
         " : " + new Object(){}.getClass().getEnclosingMethod().getName());
 
@@ -79,7 +78,6 @@ public class MessageDao {
             String sql = "SELECT * FROM messages WHERE id = ?";
 
             ps = connection.prepareStatement(sql);
-
             ps.setInt(1, id);
 
             ResultSet rs = ps.executeQuery();
@@ -91,31 +89,6 @@ public class MessageDao {
             }
         } catch (SQLException e) {
     	  log.log(Level.SEVERE, new Object(){}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
-            throw new SQLRuntimeException(e);
-        } finally {
-            close(ps);
-        }
-    }
-
-    // メッセージ編集（バリデーション用）
-    public Message reference(Connection connection, int id) {
-
-        PreparedStatement ps = null;
-        try {
-            String sql = "SELECT * FROM messages WHERE id = ?";
-
-            ps = connection.prepareStatement(sql);
-            ps.setInt(1, id);
-
-            ResultSet rs = ps.executeQuery();
-
-            List<Message> messages = toMessages(rs);
-            if (messages.isEmpty()) {
-                return null;
-            } else {
-                return messages.get(0);
-            }
-        } catch (SQLException e) {
             throw new SQLRuntimeException(e);
         } finally {
             close(ps);
@@ -179,7 +152,8 @@ public class MessageDao {
 		try {
 			StringBuilder sql = new StringBuilder();
 			sql.append("UPDATE messages ");
-			sql.append("SET messages.text = ? ");
+			sql.append("SET messages.text = ?, ");
+			sql.append("    messages.updated_date = CURRENT_TIMESTAMP ");
 			sql.append("WHERE messages.id = ?; ");
 
 			ps = connection.prepareStatement(sql.toString());
