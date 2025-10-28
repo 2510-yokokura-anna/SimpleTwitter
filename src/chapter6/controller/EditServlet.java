@@ -77,20 +77,13 @@ public class EditServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
 
-        HttpSession session = request.getSession();
         List<String> errorMessages = new ArrayList<String>();
 
         Message message = getMessage(request);
 
         if (!isValid(message, errorMessages)) {
-            session.setAttribute("errorMessages", errorMessages);
-            session.setAttribute("id", message.getId());
-            session.setAttribute("text", message.getText());
-            session.setAttribute("param", message.getId());
-            request.setAttribute("id", message.getId());
-            request.setAttribute("text", message.getText());
-            request.setAttribute("param", message.getId());
-            //response.sendRedirect("edit?id=" + request.getParameter("id") + "");
+        	request.setAttribute("errorMessages", errorMessages);
+            request.setAttribute("message", message);
             request.getRequestDispatcher("edit.jsp").forward(request, response);
             return;
         }
@@ -109,9 +102,6 @@ public class EditServlet extends HttpServlet {
 
 	  log.info(new Object(){}.getClass().getEnclosingClass().getName() +
         " : " + new Object(){}.getClass().getEnclosingMethod().getName());
-
-	  String test = request.getParameter("id");
-	  String test2 = request.getParameter("text");
 
 	  	Message message = new Message();
 	  	message.setId(Integer.parseInt(request.getParameter("id")));
