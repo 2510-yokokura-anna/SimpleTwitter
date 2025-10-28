@@ -45,7 +45,7 @@ public class EditServlet extends HttpServlet {
   	  	HttpSession session = request.getSession();
       	List<String> errorMessages = new ArrayList<String>();
 
-		if(request.getParameter("id").matches("^[0-9]*$")) {
+		if(request.getParameter("id") != null && request.getParameter("id").matches("^[0-9]*$")) {
       		Message messageForm = getMessage(request);
 		    int id = messageForm.getId();
 		    Message userIdConfirmation = new MessageService().select(id);
@@ -87,7 +87,7 @@ public class EditServlet extends HttpServlet {
             return;
         }
 
-        new MessageService().update(message.getId(), message.getText());
+        new MessageService().update(message);
         response.sendRedirect("./");
     }
 
