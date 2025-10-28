@@ -23,9 +23,6 @@ public class Message implements Serializable {
     public String getText() {
         return text;
     }
-    public Date getUpdatedDate() {
-        return updatedDate;
-    }
 
     // setter
     public void setId(int id) {
@@ -36,8 +33,5 @@ public class Message implements Serializable {
     }
     public void setText(String text) {
         this.text = text;
-    }
-    public void setUpdatedDate(Date updatedDate) {
-        this.updatedDate = updatedDate;
     }
 }
