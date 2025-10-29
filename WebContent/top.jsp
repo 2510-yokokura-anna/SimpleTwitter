@@ -73,6 +73,24 @@
 				            	<input type="submit" value="削除" />
 				            </form>
 			            </c:if>
+			            <c:forEach items="${comments}" var="comment">
+						<c:if test="${ comment.messageId == message.id }">
+				            <div class="account-name">
+				                <span class="account"><c:out value="${comment.account}" /></span>
+				                <span class="name"><c:out value="${comment.name}" /></span>
+				            </div>
+				            <div class="text"><pre><c:out value="${comment.text}" /></pre></div>
+				            <div class="date"><fmt:formatDate value="${comment.createdDate}" pattern="yyyy/MM/dd HH:mm:ss" /></div>
+							</c:if>
+			            </c:forEach>
+			            <c:if test="${ not empty loginUser }">
+	        			    <form action="comment" method="post">
+	        			    	<input name="id" value="${message.id}" id="id" type="hidden"/>
+					            <textarea name="text" cols="100" rows="5" class="tweet-box"></textarea>
+					            <br />
+					            <input type="submit" value="返信">（140文字まで）
+					        </form>
+				        </c:if>
 			        </div>
 			    </c:forEach>
 			</div>
