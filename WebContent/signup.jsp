@@ -19,6 +19,7 @@
                         </c:forEach>
                     </ul>
                 </div>
+                <c:remove var="errorMessages" scope="session" />
             </c:if>
 
             <form action="signup" method="post"><br />
